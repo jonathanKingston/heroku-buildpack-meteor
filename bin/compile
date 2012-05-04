@@ -21,11 +21,14 @@ fetch_meteor() {
   [ ! -d "$METEOR_HOME" ] && mkdir -p "$METEOR_HOME"
   ar p "$CACHE_DIR/$PACKAGE" data.tar.gz | tar -C "$METEOR_HOME" -zxf -
 
+
+  #Hack :/
   echo "Unpacking stellar"
-  mkdir -p $CACHE_DIR/stellar
-  cd $CACHE_DIR/stellar
-  git clone git://github.com/jonathanKingston/stellar.git  
-  
+  cd $CACHE_DIR
+  mkdir stellar
+  curl https://raw.github.com/jonathanKingston/stellar/master/stellar/package.js > package.js
+  curl https://raw.github.com/jonathanKingston/stellar/master/stellar/stellar.js > stellar.js
+
 }
 
 build() {
@@ -37,7 +40,7 @@ build() {
     tar -zxf $CACHE_DIR/bundle.tar.gz --strip-components 1 -C $BUILD_DIR/.meteor/local/build
     rm $CACHE_DIR/bundle.tar.gz
     cd $METEOR_HOME/usr/lib/meteor/packages/
-    cp -r $CACHE_DIR/stellar/stellar .
+    cp -r $CACHE_DIR/stellar .
   )
 }
 

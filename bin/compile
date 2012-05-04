@@ -20,6 +20,12 @@ fetch_meteor() {
   echo "Unpacking meteor"
   [ ! -d "$METEOR_HOME" ] && mkdir -p "$METEOR_HOME"
   ar p "$CACHE_DIR/$PACKAGE" data.tar.gz | tar -C "$METEOR_HOME" -zxf -
+
+  echo "Unpacking stellar"
+  mkdir -p $CACHE_DIR/stellar
+  cd $CACHE_DIR/stellar
+  git clone git://github.com/jonathanKingston/stellar.git  
+  
 }
 
 build() {
@@ -31,7 +37,7 @@ build() {
     tar -zxf $CACHE_DIR/bundle.tar.gz --strip-components 1 -C $BUILD_DIR/.meteor/local/build
     rm $CACHE_DIR/bundle.tar.gz
     cd $METEOR_HOME/usr/lib/meteor/packages/
-    git clone git://github.com/jonathanKingston/stellar.git
+    cp -r $CACHE_DIR/stellar/stellar .
   )
 }
 
